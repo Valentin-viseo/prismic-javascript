@@ -237,6 +237,7 @@ export default class ResolvedApi implements Client {
           } else {
             console.log
             return this.getByID(result.mainDocument, { ref: token }).then((document) => {
+              console.log("Document get by this.getByID: ", document);
               if (!document) {
                 cb && cb(null, defaultUrl);
                 resolve(defaultUrl);
