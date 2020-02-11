@@ -226,13 +226,16 @@ export default class ResolvedApi implements Client {
     return new Promise((resolve, reject) => {
       this.httpClient.request<PreviewResponse>(token, (e, result) => {
         if (e) {
+          console.log("Error in first call: ", e)
           cb && cb(e);
           reject(e);
         } else if (result) {
           if (!result.mainDocument) {
+            console.log("### Result error: ", result)
             cb && cb(null, defaultUrl);
             resolve(defaultUrl);
           } else {
+            console.log
             return this.getByID(result.mainDocument, { ref: token }).then((document) => {
               if (!document) {
                 cb && cb(null, defaultUrl);
