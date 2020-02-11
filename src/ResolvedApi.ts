@@ -227,12 +227,12 @@ export default class ResolvedApi implements Client {
       this.httpClient.request<PreviewResponse>(token, (e, result) => {
         if (e) {
           console.log("Error in first call: ", e)
-          cb && cb(e);
+          cb && cb(new Error(`New error in first call: ${e} `));
           reject(e);
         } else if (result) {
           if (!result.mainDocument) {
             console.log("### Result error: ", result)
-            cb && cb(null, defaultUrl);
+            cb && cb(new Error(JSON.stringify(result)), defaultUrl);
             resolve(defaultUrl);
           } else {
             console.log
@@ -243,7 +243,7 @@ export default class ResolvedApi implements Client {
                 resolve(defaultUrl);
               } else {
                 const url = linkResolver(document);
-                cb && cb(null, url);
+                cb && cb(new Error(JSON.stringify(document)), url);
                 resolve(url);
               }
             }).catch(reject);
